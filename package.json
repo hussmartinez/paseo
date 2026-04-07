@@ -57,10 +57,12 @@
     "release:rc:minor": "npm run release:check && npm run version:all:rc:minor && npm run release:push",
     "release:rc:major": "npm run release:check && npm run version:all:rc:major && npm run release:push",
     "release:rc:next": "npm run release:check && npm run version:all:rc:next && npm run release:push",
-    "release:promote": "npm run release:check && npm run version:all:promote && npm run release:publish && npm run release:push",
-    "release:patch": "npm run release:check && npm run version:all:patch && npm run release:publish && npm run release:push",
-    "release:minor": "npm run release:check && npm run version:all:minor && npm run release:publish && npm run release:push",
-    "release:major": "npm run release:check && npm run version:all:major && npm run release:publish && npm run release:push"
+    "release:promote": "npm run release:check && npm run version:all:promote && npm run release:push",
+    "release:patch": "npm run release:check && npm run version:all:patch && npm run release:push",
+    "release:minor": "npm run release:check && npm run version:all:minor && npm run release:push",
+    "release:major": "npm run release:check && npm run version:all:major && npm run release:push",
+    "sync:upstream": "./scripts/sync-upstream-main.sh",
+    "rebase:upstream": "./scripts/rebase-onto-upstream-main.sh"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.8",
@@ -88,7 +90,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/getpaseo/paseo.git"
+    "url": "https://github.com/hussmartinez/paseo.git"
   },
   "license": "AGPL-3.0-or-later",
   "overrides": {
