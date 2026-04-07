@@ -2,6 +2,15 @@ const fs = require("node:fs");
 const path = require("node:path");
 const pkg = require("./package.json");
 const appVariant = process.env.APP_VARIANT ?? "production";
+const expoProjectId = process.env.EXPO_PROJECT_ID ?? "edc888b5-a4ce-411b-8fa0-bcca32aa7cb9";
+const expoUpdatesUrl = process.env.EXPO_UPDATES_URL ?? `https://u.expo.dev/${expoProjectId}`;
+const expoOwner = process.env.EXPO_OWNER ?? "hussmartinez";
+const expoSlug = process.env.EXPO_SLUG ?? "paseo-huss";
+const productionName = process.env.APP_NAME ?? "Paseo Huss";
+const developmentName = process.env.APP_DEBUG_NAME ?? `${productionName} Debug`;
+const appScheme = process.env.APP_SCHEME ?? "paseo-huss";
+const productionPackageId = process.env.APP_PACKAGE_ID ?? "sh.paseo";
+const developmentPackageId = process.env.APP_DEBUG_PACKAGE_ID ?? `${productionPackageId}.debug`;
 
 function resolveSecretFile(params) {
   const fromEnv = process.env[params.envKey];
@@ -19,8 +28,8 @@ function resolveSecretFile(params) {
 
 const variants = {
   production: {
-    name: "Paseo",
-    packageId: "sh.paseo",
+    name: productionName,
+    packageId: productionPackageId,
     googleServicesFile: resolveSecretFile({
       envKey: "GOOGLE_SERVICES_FILE_PROD",
       fallbackRelativePath: "./.secrets/google-services.prod.json",
@@ -31,8 +40,8 @@ const variants = {
     }),
   },
   development: {
-    name: "Paseo Debug",
-    packageId: "sh.paseo.debug",
+    name: developmentName,
+    packageId: developmentPackageId,
     googleServicesFile: resolveSecretFile({
       envKey: "GOOGLE_SERVICES_FILE_DEBUG",
       fallbackRelativePath: "./.secrets/google-services.debug.json",
@@ -49,18 +58,18 @@ const variant = variants[appVariant] ?? variants.production;
 export default {
   expo: {
     name: variant.name,
-    slug: "voice-mobile",
+    slug: expoSlug,
     version: pkg.version,
     orientation: "portrait",
     icon: "./assets/images/icon.png",
-    scheme: "paseo",
+    scheme: appScheme,
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
     runtimeVersion: {
       policy: "appVersion",
     },
     updates: {
-      url: "https://u.expo.dev/0e7f65ce-0367-46c8-a238-2b65963d235a",
+      url: expoUpdatesUrl,
     },
     ios: {
       supportsTablet: true,
@@ -148,9 +157,9 @@ export default {
     extra: {
       router: {},
       eas: {
-        projectId: "0e7f65ce-0367-46c8-a238-2b65963d235a",
+        projectId: expoProjectId,
       },
     },
-    owner: "getpaseo",
+    owner: expoOwner,
   },
 };

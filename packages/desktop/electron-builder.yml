@@ -1,7 +1,7 @@
 npmRebuild: false
-appId: sh.paseo.desktop
-productName: Paseo
-executableName: Paseo
+appId: sh.paseo-huss.desktop
+productName: Paseo Huss
+executableName: PaseoHuss
 afterPack: ./scripts/after-pack.js
 directories:
   output: release
@@ -16,28 +16,14 @@ extraResources:
     to: skills
 publish:
   provider: github
-  owner: getpaseo
+  owner: hussmartinez
   repo: paseo
-mac:
-  artifactName: "Paseo-${version}-${arch}.${ext}"
-  category: public.app-category.developer-tools
-  icon: assets/icon.icns
-  hardenedRuntime: true
-  notarize: true
-  entitlements: build/entitlements.mac.plist
-  entitlementsInherit: build/entitlements.mac.inherit.plist
-  extraResources:
-    - from: bin/paseo
-      to: bin/paseo
-  target:
-    - dmg
-    - zip
 linux:
   category: Development
   icon: assets
-  artifactName: "Paseo-${version}-${arch}.${ext}"
-  maintainer: "Mohamed Boudra <hello@moboudra.com>"
-  vendor: "Paseo"
+  artifactName: "Paseo-Huss-${version}-${arch}.${ext}"
+  maintainer: "Huss Martinez <dev@hussmartinez.xyz>"
+  vendor: "Paseo-Huss"
   extraResources:
     - from: bin/paseo
       to: bin/paseo
@@ -46,15 +32,3 @@ linux:
     - deb
     - rpm
     - tar.gz
-win:
-  icon: assets/icon.ico
-  extraResources:
-    - from: bin/paseo.cmd
-      to: bin/paseo.cmd
-  target:
-    - nsis
-    - zip
-nsis:
-  oneClick: false
-  perMachine: false
-  allowToChangeInstallationDirectory: true

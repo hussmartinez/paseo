@@ -21,7 +21,7 @@ Before running any stable patch release command:
 npm run release:patch
 ```
 
-This bumps the version across all workspaces, runs checks, publishes to npm, and pushes the branch + tag (triggering desktop, APK, and EAS mobile workflows).
+This bumps the version across all workspaces, runs checks, and pushes the branch + tag (triggering Linux desktop and Android APK workflows in this fork).
 
 If asked to "release paseo" without specifying major/minor, treat it as a patch release.
 
@@ -33,7 +33,6 @@ Use the direct stable path when the current `main` changes are ready to become t
 npm run typecheck            # Verify the exact commit you intend to release
 npm run release:check        # Typecheck, build, dry-run pack
 npm run version:all:patch    # Bump version, create commit + tag
-npm run release:publish      # Publish to npm
 npm run release:push         # Push HEAD + tag (triggers CI workflows)
 ```
 
@@ -47,7 +46,7 @@ npm run release:promote        # Promote X.Y.Z-rc.N to stable X.Y.Z
 ```
 
 - RC tags are published GitHub prereleases like `v0.1.41-rc.1`
-- RCs publish desktop assets and APKs for testing, but they do not publish npm packages and do not trigger the production web/mobile release flows
+- RCs publish Linux desktop assets and APKs for testing, but they do not publish npm packages and do not trigger production web/mobile release flows
 - `release:promote` creates a fresh stable tag like `v0.1.41`; the final release never reuses the RC tag
 - Desktop assets now come from the Electron package at `packages/desktop`
 - **Do NOT create a changelog entry for RCs.** The changelog remains stable-only. RC release notes are generated automatically so the website stays pinned to the latest published stable release.
@@ -77,13 +76,10 @@ Prefer a tag push over `workflow_dispatch` whenever you are rebuilding release c
 The retry tag patterns below still work and remain the supported way to rebuild specific release targets:
 
 ```bash
-# Desktop (all platforms)
+# Desktop (Linux)
 git tag -f desktop-v0.1.28 HEAD && git push origin desktop-v0.1.28 --force
 
-# Desktop (single platform)
-git tag -f desktop-macos-v0.1.28 HEAD && git push origin desktop-macos-v0.1.28 --force
 git tag -f desktop-linux-v0.1.28 HEAD && git push origin desktop-linux-v0.1.28 --force
-git tag -f desktop-windows-v0.1.28 HEAD && git push origin desktop-windows-v0.1.28 --force
 
 # Android APK
 git tag -f android-v0.1.28 HEAD && git push origin android-v0.1.28 --force
@@ -94,9 +90,9 @@ git tag -f v0.1.29-rc.2 HEAD && git push origin v0.1.29-rc.2 --force
 
 This ensures the checkout ref matches the actual code on `main` with the fix included.
 
-- `vX.Y.Z` or `vX.Y.Z-rc.N` rebuilds the full tagged release
-- `desktop-vX.Y.Z` rebuilds desktop for all desktop platforms only
-- `desktop-macos-vX.Y.Z`, `desktop-linux-vX.Y.Z`, and `desktop-windows-vX.Y.Z` rebuild only that desktop platform
+- `vX.Y.Z` or `vX.Y.Z-rc.N` rebuilds the full tagged release for this fork
+- `desktop-vX.Y.Z` rebuilds Linux desktop only
+- `desktop-linux-vX.Y.Z` rebuilds Linux desktop only
 - `android-vX.Y.Z` rebuilds the Android APK release only
 
 ## Notes
@@ -104,8 +100,7 @@ This ensures the checkout ref matches the actual code on `main` with the fix inc
 - `version:all:*` bumps root + syncs workspace versions and `@getpaseo/*` dependency versions
 - `release:prepare` refreshes workspace `node_modules` links to prevent stale types
 - `npm run dev:desktop` and `npm run build:desktop` target the Electron desktop package in `packages/desktop`
-- If `release:publish` partially fails, re-run it — npm skips already-published versions
-- The website uses GitHub's latest published release API for download links, so published RC prereleases do not replace the stable download target.
+- This fork does not publish npm packages as part of `release:*`
 
 ## Changelog format
 
@@ -174,4 +169,3 @@ In other words, RCs are checkpoints along the way; the changelog only records th
 - [ ] `npm run release:patch` or `npm run release:promote` completes successfully
 - [ ] GitHub `Desktop Release` workflow for the `v*` tag is green
 - [ ] GitHub `Android APK Release` workflow for the same tag is green
-- [ ] EAS `release-mobile.yml` workflow for the same tag is green
