@@ -2,7 +2,10 @@
 
 ## Current state
 
-- No plugin code has been implemented.
+- The plugin (detect + archive only) lives in its own private repo:
+  `https://github.com/hussmartinez/detect-orphaned-workspaces`. Its `NEXT_STEPS.md`
+  tracks plugin-side gaps. This branch holds no code; it only tracks the core relink
+  API the plugin needs.
 - This branch started from Paseo commit `30178c4f5` and is 683 commits behind
   `upstream/main` as of 2026-10-29.
 - The branch is pushed as `origin/plugin-detect-orphaned-workspaces` in
@@ -25,9 +28,8 @@ preserving identity and history.
 3. Expose the operation through the client/plugin API with the normal permission and
    capability gates. Follow `docs/protocol-compatibility.md` and
    `docs/rpc-namespacing.md` for any protocol changes.
-4. Build a trusted local plugin with a server-side scan RPC and a cross-platform
-   screen or workspace panel. Use `docs/plugins.md` and a current example under
-   `plugin-examples/`.
+4. Extend `hussmartinez/detect-orphaned-workspaces` (scan RPC and sidebar surface
+   already exist) with candidate ranking and a Relink action.
 5. Detect missing paths without mutating them. Rank relocation candidates using, in
    order: Git common-dir/worktree metadata, normalized remote URL, repository name,
    and nearby filesystem location.
